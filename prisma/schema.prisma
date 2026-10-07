@@ -1,0 +1,177 @@
+// Crayford — database schema.
+//
+// Local development uses SQLite (zero setup). For production (Vercel +
+// Postgres) change the datasource to:
+//
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+//
+// and set DATABASE_URL to your Postgres connection string. The schema itself
+// is compatible with both providers.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ── Admin ────────────────────────────────────────────────────────────────────
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ── Apartments ───────────────────────────────────────────────────────────────
+
+model Apartment {
+  id          String   @id @default(cuid())
+  slug        String   @unique // stable id used by the public booking widget
+  name        String
+  description String
+  location    String
+  bedrooms    Int      @default(2)
+  bathrooms   Int      @default(2)
+  maxGuests   Int      @default(5)
+  pricePerNight Int    @default(80000) // Naira
+  checkInTime  String  @default("14:00")
+  checkOutTime String  @default("12:00")
+  active      Boolean  @default(true)
+  displayOrder Int     @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bookings    Booking[]
+  blockedDates BlockedDate[]
+
+  @@index([displayOrder])
+}
+
+// ── Rooms (apartment interior showcase) ─────────────────────────────────────
+
+model Room {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  label        String // uppercase label, e.g. "BEDROOM ONE"
+  description  String
+  mainImage    String // /images/... path
+  galleryJson  String   @default("[]") // JSON array of image paths
+  featuresJson String   @default("[]") // JSON array of feature strings
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}
+
+// ── Amenities ────────────────────────────────────────────────────────────────
+
+model Amenity {
+  id           String   @id @default(cuid())
+  name         String
+  description  String
+  icon         String // key of components/ui/AmenityIcon.tsx
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}
+
+// ── Gallery ──────────────────────────────────────────────────────────────────
+
+model GalleryImage {
+  id           String   @id @default(cuid())
+  src          String // /images/... path
+  alt          String
+  title        String
+  featured     Boolean  @default(false)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([displayOrder])
+}
+
+// ── Bookings ─────────────────────────────────────────────────────────────────
+//
+// Lifecycle: PENDING_PAYMENT → (payment verified) CONFIRMED → COMPLETED
+//            PENDING_PAYMENT → (timeout/cancel) CANCELLED
+
+model Booking {
+  id              String   @id @default(cuid())
+  reference       String   @unique @default(cuid())
+  apartmentId     String
+  guestName       String
+  email           String
+  phone           String   @default("")
+  checkIn         DateTime // local midnight
+  checkOut        DateTime // local midnight (exclusive)
+  guests          Int
+  nights          Int
+  amount          Int // Naira, snapshot of nights × price
+  paymentStatus   String   @default("pending") // pending | paid | failed | refunded
+  bookingStatus   String   @default("pending_payment") // pending_payment | confirmed | cancelled | completed
+  paymentReference String  @default("") // Paystack reference once paid
+  paymentProvider String   @default("paystack")
+  notes           String   @default("")
+  holdExpiresAt   DateTime? // when a pending_payment hold expires
+  paidAt          DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+
+  @@index([apartmentId, checkIn, checkOut])
+  @@index([bookingStatus])
+  @@index([paymentReference])
+  @@index([createdAt])
+}
+
+// ── Blocked dates (admin holds) ──────────────────────────────────────────────
+
+model BlockedDate {
+  id          String   @id @default(cuid())
+  apartmentId String
+  startDate   DateTime // local midnight, inclusive
+  endDate     DateTime // local midnight, exclusive
+  reason      String   @default("Unavailable")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+
+  @@index([apartmentId, startDate, endDate])
+}
+
+// ── Inquiries ────────────────────────────────────────────────────────────────
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  message   String
+  status    String   @default("new") // new | read | replied | archived
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ── Site settings (key/value store for editable website content) ─────────────
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

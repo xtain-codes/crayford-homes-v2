@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ── Crayford Homes brand tokens (official letterhead) ─────────────── */
+  --crayford-red: #971d1d;
+  --crayford-pink: #dda8a8;
+  --crayford-white: #ffffff;
+  --crayford-off-white: #fafaf8;
+  --crayford-dark: #202020;
+  --crayford-gray: #666666;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-warmwhite text-ink antialiased;
+  }
+
+  ::selection {
+    @apply bg-brand-red/85 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-red ring-offset-2 ring-offset-warmwhite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0s !important;
+    }
+  }
+}
+
+@layer components {
+  /* Small uppercase section label with a brand rule */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 font-sans text-[11px] font-medium uppercase tracking-label;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-10 bg-brand-red;
+  }
+  .eyebrow--center::after {
+    content: "";
+    @apply h-px w-10 bg-brand-red;
+  }
+
+  /* Buttons — Crayford red primary, red outline secondary */
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 px-8 py-3.5 font-sans text-xs font-semibold uppercase tracking-label transition-all duration-300 ease-smooth;
+  }
+  .btn-primary {
+    @apply btn bg-brand-red text-white hover:bg-brand-red-dark hover:gap-3;
+  }
+  .btn-light {
+    @apply btn bg-white text-ink hover:bg-brand-pink-soft hover:gap-3;
+  }
+  .btn-outline {
+    @apply btn border border-brand-red bg-transparent text-brand-red hover:bg-brand-red hover:text-white hover:gap-3;
+  }
+
+  /* Editorial image frame */
+  .image-frame {
+    @apply relative overflow-hidden bg-beige;
+  }
+  .image-frame img {
+    @apply h-full w-full object-cover;
+  }
+
+  /* Light-context eyebrow variant: pink rule on dark imagery */
+  .eyebrow--light::before {
+    @apply bg-brand-pink;
+  }
+
+  /* ── Brand intro (logo reveal) ───────────────────────────────────────
+     White overlay, logo fades/scales in, holds, fades away. The exit
+     animation sets visibility:hidden so the overlay never blocks clicks
+     even before React unmounts it. Reduced-motion users get an instant
+     (0.01ms) pass-through via the global override above. */
+  .brand-intro {
+    @apply fixed inset-0 z-[100] grid place-items-center bg-white;
+    animation: intro-exit 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.25s forwards;
+  }
+  .brand-intro__logo {
+    animation: intro-logo 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+}
+
+@layer utilities {
+  @keyframes intro-logo {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intro-exit {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hero-vignette {
+    background: linear-gradient(
+      to bottom,
+      rgba(17, 17, 17, 0.55) 0%,
+      rgba(17, 17, 17, 0.25) 35%,
+      rgba(17, 17, 17, 0.35) 65%,
+      rgba(17, 17, 17, 0.75) 100%
+    );
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  .editorial-booking-panel {
+    @apply grid overflow-hidden border border-charcoal/10 bg-white shadow-[0_28px_80px_-30px_rgba(32,32,32,0.34)] md:grid-cols-[1fr_1fr_.8fr_auto];
+  }
+  .editorial-booking-field {
+    @apply flex min-h-[92px] flex-col justify-center gap-2 border-b border-charcoal/10 px-6 md:border-b-0 md:border-r;
+  }
+  .editorial-booking-field > span:first-child {
+    @apply font-sans text-[10px] font-semibold uppercase tracking-label text-muted;
+  }
+  .editorial-booking-input {
+    @apply min-w-0 flex-1 bg-transparent font-sans text-sm text-charcoal outline-none;
+  }
+  .editorial-booking-button {
+    @apply min-h-[72px] bg-brand-red px-8 font-sans text-[11px] font-semibold uppercase tracking-label text-white transition-colors duration-300 hover:bg-brand-red-dark md:min-h-[92px];
+  }
+}
