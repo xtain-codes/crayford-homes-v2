@@ -35,7 +35,7 @@ type ConfirmationResult = {
 };
 
 const inputClass =
-  "mt-2 w-full border border-charcoal/15 bg-transparent px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-brand-red";
+  "mt-2 min-h-[52px] w-full rounded-xl border border-charcoal/15 bg-warmwhite px-4 py-3 text-sm text-charcoal outline-none transition-all duration-200 focus:border-brand-red focus:ring-2 focus:ring-brand-red/10";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -390,10 +390,10 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
   /* ── Details step ─────────────────────────────────────────────────────── */
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
+    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       {/* Form */}
       <div className="lg:col-span-7">
-        <div className="border border-charcoal/10 bg-white p-8 sm:p-10">
+        <div className="rounded-[28px] border border-charcoal/10 bg-white p-6 shadow-[0_24px_70px_-48px_rgba(32,32,32,0.45)] sm:p-10">
           <p className="font-sans text-[10px] uppercase tracking-label text-brand-red">
             Book your stay
           </p>
@@ -418,10 +418,10 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                   }}
                   aria-pressed={apartmentSlug === option.slug}
                   className={cn(
-                    "border p-4 text-left transition-all duration-300 ease-smooth",
+                    "rounded-2xl border p-5 text-left transition-all duration-300 ease-smooth",
                     apartmentSlug === option.slug
-                      ? "border-brand-red bg-brand-red/5"
-                      : "border-charcoal/15 hover:border-charcoal/40"
+                      ? "border-brand-red bg-brand-red/5 ring-1 ring-brand-red/10"
+                      : "border-charcoal/15 bg-warmwhite hover:border-charcoal/40"
                   )}
                 >
                   <span className="block font-serif text-lg text-charcoal">{option.name}</span>
@@ -621,7 +621,7 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
             type="button"
             onClick={handlePay}
             disabled={!detailsValid || step === "paying" || step === "verifying"}
-            className="btn-primary mt-8 w-full disabled:cursor-not-allowed disabled:opacity-40"
+            className="btn-primary mt-8 w-full rounded-xl disabled:cursor-not-allowed disabled:opacity-40"
           >
             {step === "paying"
               ? "Starting payment…"
@@ -641,25 +641,25 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
 
       {/* Summary */}
       <div className="lg:col-span-5">
-        <div className="bg-charcoal p-8 text-cream sm:p-10 lg:sticky lg:top-32">
-          <p className="font-sans text-[10px] uppercase tracking-label text-cream/60">Your stay</p>
+        <div className="rounded-[28px] border border-charcoal/10 bg-[#f7f2ee] p-8 text-charcoal shadow-[0_24px_70px_-48px_rgba(32,32,32,0.45)] sm:p-10 lg:sticky lg:top-32">
+          <p className="font-sans text-[10px] uppercase tracking-label text-muted">Your stay</p>
           <h3 className="mt-3 font-serif text-2xl">{apartment?.name ?? "Apartment"}</h3>
 
-          <dl className="mt-8 space-y-5 border-t border-white/10 pt-8 text-sm">
+          <dl className="mt-8 space-y-5 border-t border-charcoal/10 pt-8 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-cream/60">Check-in</dt>
+              <dt className="text-muted">Check-in</dt>
               <dd>{checkIn ? formatDayShort(checkIn) : "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-cream/60">Check-out</dt>
+              <dt className="text-muted">Check-out</dt>
               <dd>{checkOut ? formatDayShort(checkOut) : "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-cream/60">Guests</dt>
+              <dt className="text-muted">Guests</dt>
               <dd>{guests}</dd>
             </div>
-            <div className="flex justify-between gap-4 border-t border-white/10 pt-5">
-              <dt className="text-cream/60">
+            <div className="flex justify-between gap-4 border-t border-charcoal/10 pt-5">
+              <dt className="text-muted">
                 {apartment ? formatNaira(apartment.pricePerNight) : ""} × {nights} night
                 {nights === 1 ? "" : "s"}
               </dt>
@@ -667,14 +667,14 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
             </div>
           </dl>
 
-          <div className="mt-8 border-t border-white/10 pt-8">
+          <div className="mt-8 border-t border-charcoal/10 pt-8">
             <div className="flex items-baseline justify-between">
-              <span className="font-sans text-[10px] uppercase tracking-label text-cream/60">Total</span>
+              <span className="font-sans text-[10px] uppercase tracking-label text-muted">Total</span>
               <span className="font-serif text-3xl">{total > 0 ? formatNaira(total) : "—"}</span>
             </div>
           </div>
 
-          <p className="mt-8 text-xs leading-relaxed text-cream/50">
+          <p className="mt-8 text-xs leading-relaxed text-muted">
             Your dates are held for 30 minutes once you start payment. If payment is not
             completed, they are released automatically.
           </p>
