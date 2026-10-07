@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { BookingWidget } from "@/components/BookingWidget";
-import { Eyebrow } from "@/components/ui/Reveal";
 import { formatNaira } from "@/lib/booking";
 import { getBookableApartments } from "@/lib/content";
 
@@ -78,4 +77,6 @@ export default async function BookPage() {
         </div>
       </section>
     </>
-  );}
+  );
+}
+
