@@ -38,7 +38,7 @@ export const siteConfig = {
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? "",
   },
 
-  heroHeadingLines: ["HOME AWAY", "FROM HOME"],
+  heroHeadingLines: ["A HOME THAT", "FEELS LIKE YOURS."],
   heroSupportingText:
     "Private, considered short-stay living in Ikeja — designed around the way you actually want to stay.",
 
