@@ -1,7 +1,8 @@
 "use client";
 
 import { Calendar, ChevronLeft, ChevronRight, Loader2, Lock } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { formatNaira, formatStayDate, parseDateInput, validateStay } from "@/lib/booking";
 import { cn } from "@/lib/utils";
@@ -35,7 +36,7 @@ type ConfirmationResult = {
 };
 
 const inputClass =
-  "mt-2 min-h-[52px] w-full rounded-xl border border-charcoal/15 bg-warmwhite px-4 py-3 text-sm text-charcoal outline-none transition-all duration-200 focus:border-brand-red focus:ring-2 focus:ring-brand-red/10";
+  "mt-2 min-h-[54px] w-full rounded-lg border border-charcoal/15 bg-[#ededed] px-4 py-3 font-sans text-sm text-charcoal outline-none transition-colors duration-200 focus:border-charcoal/50 focus:bg-white";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -69,6 +70,8 @@ function formatDayShort(dateKey: string): string {
  * expire, never blocking dates permanently.
  */
 export function BookingWidget({ apartments }: { apartments: ApartmentOption[] }) {
+  const searchParams = useSearchParams();
+  const queryApplied = useRef(false);
   const [apartmentSlug, setApartmentSlug] = useState(apartments[0]?.slug ?? "");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -92,6 +95,19 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
 
   const apartment =
     apartments.find((option) => option.slug === apartmentSlug) ?? apartments[0];
+
+  useEffect(() => {
+    if (queryApplied.current) return;
+    queryApplied.current = true;
+    const qIn = searchParams.get("checkIn");
+    const qOut = searchParams.get("checkOut");
+    const qGuests = Number(searchParams.get("guests"));
+    if (qIn) setCheckIn(qIn);
+    if (qOut) setCheckOut(qOut);
+    if (Number.isFinite(qGuests) && qGuests >= 1) {
+      setGuests(Math.min(qGuests, apartment?.maxGuests ?? qGuests));
+    }
+  }, [searchParams, apartment?.maxGuests]);
 
   // Load live availability for the selected apartment.
   useEffect(() => {
@@ -390,14 +406,14 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
   /* ── Details step ─────────────────────────────────────────────────────── */
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+    <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
       {/* Form */}
       <div className="lg:col-span-7">
-        <div className="rounded-[28px] border border-charcoal/10 bg-white p-6 shadow-[0_24px_70px_-48px_rgba(32,32,32,0.45)] sm:p-10">
-          <p className="font-sans text-[10px] uppercase tracking-label text-brand-red">
+        <div className="rounded-2xl border border-charcoal/15 bg-[#fafafb] p-6 sm:p-10">
+          <p className="font-sans text-xs font-medium uppercase tracking-[0.14em] text-muted">
             Book your stay
           </p>
-          <h2 className="mt-4 font-serif text-3xl font-medium text-charcoal sm:text-4xl">
+          <h2 className="mt-4 font-serif text-4xl font-normal leading-[1.05] tracking-[-0.02em] text-charcoal sm:text-5xl">
             Choose your dates.
           </h2>
 
@@ -418,14 +434,14 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                   }}
                   aria-pressed={apartmentSlug === option.slug}
                   className={cn(
-                    "rounded-2xl border p-5 text-left transition-all duration-300 ease-smooth",
+                    "rounded-2xl border p-5 text-left transition-colors duration-200",
                     apartmentSlug === option.slug
-                      ? "border-brand-red bg-brand-red/5 ring-1 ring-brand-red/10"
-                      : "border-charcoal/15 bg-warmwhite hover:border-charcoal/40"
+                      ? "border-charcoal bg-charcoal text-white"
+                      : "border-charcoal/15 bg-[#ededed] hover:border-charcoal/40"
                   )}
                 >
-                  <span className="block font-serif text-lg text-charcoal">{option.name}</span>
-                  <span className="mt-1 block text-xs text-muted">
+                  <span className={cn("block font-serif text-xl", apartmentSlug === option.slug ? "text-white" : "text-charcoal")}>{option.name}</span>
+                  <span className={cn("mt-1 block text-xs", apartmentSlug === option.slug ? "text-white/65" : "text-muted")}>
                     {option.bedrooms} bedrooms · {option.bathrooms} bathrooms · up to{" "}
                     {option.maxGuests} guests
                   </span>
@@ -447,7 +463,7 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                 className={cn(inputClass, "mt-2 flex items-center justify-between text-left", !checkIn && "text-muted")}
               >
                 {checkIn ? formatDayShort(checkIn) : "Select date"}
-                <Calendar className="h-4 w-4 text-brand-red" aria-hidden="true" />
+                <Calendar className="h-4 w-4 text-charcoal/60" aria-hidden="true" />
               </button>
             </div>
             <div className="relative">
@@ -461,7 +477,7 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                 className={cn(inputClass, "mt-2 flex items-center justify-between text-left", !checkOut && "text-muted")}
               >
                 {checkOut ? formatDayShort(checkOut) : checkIn ? "Select date" : "Choose check-in first"}
-                <Calendar className="h-4 w-4 text-brand-red" aria-hidden="true" />
+                <Calendar className="h-4 w-4 text-charcoal/60" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -482,7 +498,7 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                         type="button"
                         onClick={() => shiftPickerMonth(-1)}
                         aria-label="Previous month"
-                        className="p-1.5 text-charcoal hover:text-brand-red"
+                        className="rounded-full p-2 text-charcoal hover:bg-charcoal hover:text-white"
                       >
                         <ChevronLeft className="h-4 w-4" />
                       </button>
@@ -496,7 +512,7 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                         type="button"
                         onClick={() => shiftPickerMonth(1)}
                         aria-label="Next month"
-                        className="p-1.5 text-charcoal hover:text-brand-red"
+                        className="rounded-full p-2 text-charcoal hover:bg-charcoal hover:text-white"
                       >
                         <ChevronRight className="h-4 w-4" />
                       </button>
@@ -533,8 +549,8 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
                             className={cn(
                               "flex h-9 items-center justify-center text-sm transition-colors",
                               (pickerOpen === "in" ? checkIn : checkOut) === cell.key
-                                ? "bg-brand-red text-white"
-                                : "text-charcoal hover:bg-brand-pink/30",
+                                ? "rounded-full bg-charcoal text-white"
+                                : "rounded-full text-charcoal hover:bg-charcoal/10",
                               disabledFor(pickerOpen, cell.key) &&
                                 "cursor-not-allowed text-charcoal/25 line-through hover:bg-transparent",
                               isPast(cell.key) && "cursor-not-allowed text-charcoal/25 hover:bg-transparent"
@@ -621,7 +637,7 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
             type="button"
             onClick={handlePay}
             disabled={!detailsValid || step === "paying" || step === "verifying"}
-            className="btn-primary mt-8 w-full rounded-xl disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-8 inline-flex min-h-[54px] w-full items-center justify-center rounded-full bg-charcoal px-8 font-sans text-sm font-medium text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
           >
             {step === "paying"
               ? "Starting payment…"
@@ -641,25 +657,25 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
 
       {/* Summary */}
       <div className="lg:col-span-5">
-        <div className="rounded-[28px] border border-charcoal/10 bg-[#f7f2ee] p-8 text-charcoal shadow-[0_24px_70px_-48px_rgba(32,32,32,0.45)] sm:p-10 lg:sticky lg:top-32">
-          <p className="font-sans text-[10px] uppercase tracking-label text-muted">Your stay</p>
-          <h3 className="mt-3 font-serif text-2xl">{apartment?.name ?? "Apartment"}</h3>
+        <div className="rounded-[22px] bg-[#111111] p-8 text-[#fafafb] sm:p-10 lg:sticky lg:top-32">
+          <p className="font-sans text-xs font-medium uppercase tracking-[0.14em] text-white/55">Your stay</p>
+          <h3 className="mt-4 font-serif text-3xl font-normal tracking-[-0.015em] text-white">{apartment?.name ?? "Apartment"}</h3>
 
-          <dl className="mt-8 space-y-5 border-t border-charcoal/10 pt-8 text-sm">
+          <dl className="mt-8 space-y-5 border-t border-white/15 pt-8 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-muted">Check-in</dt>
+              <dt className="text-white/55">Check-in</dt>
               <dd>{checkIn ? formatDayShort(checkIn) : "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-muted">Check-out</dt>
+              <dt className="text-white/55">Check-out</dt>
               <dd>{checkOut ? formatDayShort(checkOut) : "—"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-muted">Guests</dt>
+              <dt className="text-white/55">Guests</dt>
               <dd>{guests}</dd>
             </div>
-            <div className="flex justify-between gap-4 border-t border-charcoal/10 pt-5">
-              <dt className="text-muted">
+            <div className="flex justify-between gap-4 border-t border-white/15 pt-5">
+              <dt className="text-white/55">
                 {apartment ? formatNaira(apartment.pricePerNight) : ""} × {nights} night
                 {nights === 1 ? "" : "s"}
               </dt>
@@ -667,14 +683,14 @@ export function BookingWidget({ apartments }: { apartments: ApartmentOption[] })
             </div>
           </dl>
 
-          <div className="mt-8 border-t border-charcoal/10 pt-8">
+          <div className="mt-8 border-t border-white/15 pt-8">
             <div className="flex items-baseline justify-between">
-              <span className="font-sans text-[10px] uppercase tracking-label text-muted">Total</span>
-              <span className="font-serif text-3xl">{total > 0 ? formatNaira(total) : "—"}</span>
+              <span className="font-sans text-xs uppercase tracking-[0.14em] text-white/55">Total</span>
+              <span className="font-serif text-4xl text-white">{total > 0 ? formatNaira(total) : "—"}</span>
             </div>
           </div>
 
-          <p className="mt-8 text-xs leading-relaxed text-muted">
+          <p className="mt-8 text-xs leading-relaxed text-white/55">
             Your dates are held for 30 minutes once you start payment. If payment is not
             completed, they are released automatically.
           </p>
@@ -695,7 +711,7 @@ function Row({
 }) {
   return (
     <div className="flex justify-between gap-4">
-      <dt className="text-muted">{label}</dt>
+      <dt className="text-white/55">{label}</dt>
       <dd className={cn("text-right", strong ? "font-serif text-lg text-charcoal" : "text-charcoal")}>
         {value}
       </dd>
