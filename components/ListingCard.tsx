@@ -17,24 +17,24 @@ export type ListingStats = {
 export function ListingCard({ stats }: { stats: ListingStats }) {
 
   return (
-    <section id="book" aria-labelledby="listing-heading" className="bg-warmwhite">
+    <section id="book" aria-labelledby="listing-heading" className="bg-[#f7f0e1]">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:px-8 md:py-36 lg:px-12">
         <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow center>Reservations</Eyebrow>
           <h2
             id="listing-heading"
-            className="mt-5 text-balance font-serif text-4xl font-medium leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
+            className="mt-5 text-balance font-sans text-4xl font-light tracking-[-0.035em] leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
           >
             Your stay starts here.
           </h2>
         </Reveal>
 
         <Reveal delay={150} className="mt-14 md:mt-20">
-          <div className="mx-auto max-w-4xl overflow-hidden border border-charcoal/10 bg-cream shadow-[0_24px_80px_-32px_rgba(17,17,17,0.25)]">
+          <div className="mx-auto max-w-4xl overflow-hidden border border-charcoal/10 bg-cream shadow-none rounded-[24px]">
             <div className="grid md:grid-cols-5">
               {/* Left: details */}
               <div className="p-8 sm:p-12 md:col-span-3">
-                <p className="font-serif text-3xl font-semibold tracking-[0.28em] text-charcoal">
+                <p className="font-sans text-3xl font-light tracking-[-0.035em] tracking-[0.28em] text-charcoal">
                   CRAYFORD
                 </p>
                 <p className="mt-2 font-sans text-[11px] uppercase tracking-label text-muted">
