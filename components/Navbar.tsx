@@ -174,11 +174,11 @@ export function Navbar() {
                       onClick={(event) => handleAnchorClick(event, link.href)}
                       className={cn(
                         "block w-full py-3 font-sans font-light text-4xl transition-colors hover:text-brand-red",
-                        link.href === "/book" ? "text-white font-semibold" : "text-[#23212c]/90"
+                        link.href === "/book" ? "text-brand-red font-medium" : "text-[#23212c]/90"
                       )}
                     >
                       {link.label}
-                      <span className="mt-1 block h-px w-8 bg-brand-pink/60" />
+                      <span className="mt-1 block h-px w-8 bg-brand-red/40" />
                     </Link>
                   </li>
                 )
