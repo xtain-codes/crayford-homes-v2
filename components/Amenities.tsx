@@ -7,7 +7,7 @@ export function Amenities({ amenities }: { amenities: Amenity[] }) {
     <section
       id="amenities"
       aria-labelledby="amenities-heading"
-      className="bg-charcoal text-cream"
+      className="bg-[#f7f0e1] text-[#23212c]"
     >
       <div className="mx-auto max-w-7xl px-6 py-24 sm:px-8 md:py-36 lg:px-12">
         <div className="grid gap-10 md:grid-cols-12">
@@ -16,7 +16,7 @@ export function Amenities({ amenities }: { amenities: Amenity[] }) {
               <Eyebrow>Amenities</Eyebrow>
               <h2
                 id="amenities-heading"
-                className="mt-5 text-balance font-serif text-4xl font-medium leading-[1.08] sm:text-5xl"
+                className="mt-5 text-balance font-sans text-4xl font-light tracking-[-0.035em] leading-[1.08] sm:text-5xl"
               >
                 Thoughtful details, built around your stay.
               </h2>
@@ -29,15 +29,15 @@ export function Amenities({ amenities }: { amenities: Amenity[] }) {
                   as="li"
                   key={amenity.name}
                   delay={(index % 2) * 80}
-                  className="group border-b border-white/10 py-6 transition-colors duration-300 hover:border-brand-pink"
+                  className="group border-b border-[#23212c]/15 py-6 transition-colors duration-300 hover:border-brand-red/50"
                 >
                   <div className="flex items-start gap-4">
                     <AmenityIcon name={amenity.icon} className="mt-0.5 shrink-0 transition-transform duration-500 group-hover:-translate-y-0.5" />
                     <div>
-                      <h3 className="font-sans text-sm font-semibold uppercase tracking-wider text-cream">
+                      <h3 className="font-sans text-sm font-semibold uppercase tracking-wider text-[#23212c]">
                         {amenity.name}
                       </h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-cream/60">
+                      <p className="mt-1.5 text-sm leading-relaxed text-[#23212c]/65">
                         {amenity.description}
                       </p>
                     </div>
