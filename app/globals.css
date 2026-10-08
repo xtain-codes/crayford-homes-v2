@@ -159,3 +159,24 @@
     @apply min-h-[72px] bg-brand-red px-8 font-sans text-[11px] font-semibold uppercase tracking-label text-white transition-colors duration-300 hover:bg-brand-red-dark md:min-h-[92px];
   }
 }
+
+/* Raus-inspired editorial booking bar; Crayford identity retained elsewhere. */
+@layer components {
+  .editorial-booking-panel {
+    @apply grid gap-0 overflow-hidden border-0 bg-[#dda8a8] shadow-none md:grid-cols-[1fr_1fr_.8fr_auto];
+    border-radius: 28px;
+  }
+  .editorial-booking-field {
+    @apply flex min-h-[88px] flex-col justify-center gap-2 border-b border-[#23212c]/15 px-6 md:border-b-0 md:border-r;
+  }
+  .editorial-booking-field > span:first-child {
+    @apply font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-[#23212c]/75;
+  }
+  .editorial-booking-input {
+    @apply min-w-0 w-full flex-1 bg-transparent font-sans text-sm font-medium text-[#23212c] outline-none;
+  }
+  .editorial-booking-button {
+    @apply flex min-h-[76px] items-center justify-center gap-3 bg-[#23212c] px-7 font-sans text-sm font-medium text-white transition-colors hover:bg-[#38343c] md:m-3 md:min-h-0;
+    border-radius: 20px;
+  }
+}
