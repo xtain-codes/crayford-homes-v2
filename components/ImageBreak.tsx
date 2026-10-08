@@ -17,8 +17,8 @@ export function ImageBreak({ imageAvailability }: { imageAvailability: ImageAvai
   if (!src) return null;
 
   return (
-    <section aria-label="Stay in comfort" className="relative overflow-hidden bg-warmblack">
-      <div className="relative h-[60vh] min-h-[420px] w-full md:h-[72vh]">
+    <section aria-label="Stay in comfort" className="bg-[#f7f0e1] px-6 py-10 sm:px-8 lg:px-12">
+      <div className="relative mx-auto h-[60vh] min-h-[420px] max-w-7xl overflow-hidden rounded-[24px] md:h-[72vh] md:rounded-[40px]">
         <Image
           src={src}
           alt="Cinematic view of the Crayford apartment"
@@ -38,7 +38,7 @@ export function ImageBreak({ imageAvailability }: { imageAvailability: ImageAvai
           <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
             <div className="max-w-xl animate-fade-up">
               <p className="eyebrow text-cream/80">The Crayford Feeling</p>
-              <h2 className="mt-5 font-serif text-5xl font-medium text-cream sm:text-6xl md:text-7xl">
+              <h2 className="mt-5 font-sans text-5xl font-light tracking-[-0.035em] text-cream sm:text-6xl md:text-7xl">
                 STAY IN COMFORT.
               </h2>
               <Link href="/apartment" className="btn-outline mt-10 inline-flex text-cream">
