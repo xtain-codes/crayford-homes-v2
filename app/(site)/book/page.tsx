@@ -20,7 +20,7 @@ export default async function BookPage() {
       <section className="relative min-h-[68vh] overflow-hidden bg-[#111111]">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/hero-living-room.jpg')" }}
+          style={{ backgroundImage: "url('/images/hero-living-room.jpg')" }}
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
@@ -42,7 +42,7 @@ export default async function BookPage() {
         </div>
       </section>
 
-      <section aria-label="Booking" className="bg-[#fafafb]">
+      <section aria-label="Booking" className="bg-[#f7f0e1]">
         <div className="mx-auto max-w-[1200px] px-6 py-20 sm:px-8 md:py-28 lg:px-12">
           <div className="mb-12 grid gap-6 border-b border-charcoal/15 pb-10 md:grid-cols-[1fr_auto] md:items-end">
             <div>
