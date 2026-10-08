@@ -18,7 +18,7 @@ export function ApartmentPreview() {
     <section
       id="the-apartment"
       aria-labelledby="apartment-preview-heading"
-      className="bg-warmwhite"
+      className="bg-[#f7f0e1]"
     >
       <div className="mx-auto max-w-7xl px-6 pb-28 sm:px-8 md:pb-40 lg:px-12">
         <div className="grid gap-8 md:grid-cols-12 md:items-end">
@@ -27,7 +27,7 @@ export function ApartmentPreview() {
               <Eyebrow>The Apartment</Eyebrow>
               <h2
                 id="apartment-preview-heading"
-                className="mt-5 text-balance font-serif text-4xl font-medium leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
+                className="mt-5 text-balance font-sans text-4xl font-light tracking-[-0.035em] leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
               >
                 Everything you need.
                 <br />
@@ -76,7 +76,7 @@ function RoomCard({ room, index }: { room: Room; index: number }) {
     >
       <Link
         href={`/apartment?room=${room.id}`}
-        className="group relative block h-full min-h-[inherit] w-full overflow-hidden bg-beige"
+        className="group relative block h-full min-h-[inherit] w-full overflow-hidden rounded-[24px] bg-beige md:rounded-[32px]"
       >
         <SiteImage
           image={{ ...image, aspect: undefined }}
