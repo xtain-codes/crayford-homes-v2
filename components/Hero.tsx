@@ -13,7 +13,6 @@ export function Hero({
 }: {
   imageAvailability: ImageAvailability;
 }) {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [heroSrc, setHeroSrc] = useState("/images/hero-living-room.jpg");
 
   // Hide the hero image gracefully if it is missing from public/images.
@@ -22,11 +21,6 @@ export function Hero({
       setHeroSrc("/images/og.svg");
     }
   }, [imageAvailability]);
-
-  return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const parallax = Math.min(scrollY, 700);
 
   return (
     <section
@@ -55,7 +49,7 @@ export function Hero({
         </div>
         <div className="mt-12 grid grid-cols-5 gap-4 md:mt-16 md:gap-7">
           <div className="relative col-span-3 h-[290px] overflow-hidden rounded-[24px] bg-[#e7ddce] sm:h-[430px] md:h-[560px] md:rounded-[40px]">
-            <Image src={heroSrc} alt="Crayford Homes living room" fill priority sizes="(max-width: 768px) 60vw, 60vw" className="object-cover" onLoad={() => setIsLoaded(true)} />
+            <Image src={heroSrc} alt="Crayford Homes living room" fill priority sizes="(max-width: 768px) 60vw, 60vw" className="object-cover" />
           </div>
           <div className="relative col-span-2 mt-12 h-[242px] overflow-hidden rounded-[24px] bg-[#e7ddce] sm:mt-20 sm:h-[350px] md:mt-28 md:h-[450px] md:rounded-[40px]">
             <Image src="/images/bedroom-1-main.jpg" alt="Comfortable bedroom at Crayford Homes" fill sizes="(max-width: 768px) 40vw, 40vw" className="object-cover" />
