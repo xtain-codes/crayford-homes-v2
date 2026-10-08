@@ -1,20 +1,12 @@
-// Crayford — database schema.
-//
-// Local development uses SQLite (zero setup). For production (Vercel +
-// Postgres) change the datasource to:
-//
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-//
-// and set DATABASE_URL to your Postgres connection string. The schema itself
-// is compatible with both providers.
+// Crayford — PostgreSQL database schema (Neon).
+// Set DATABASE_URL in your local environment and Vercel.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
