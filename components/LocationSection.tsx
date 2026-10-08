@@ -20,7 +20,7 @@ export function LocationSection({
   return (
     <section
       aria-labelledby="location-heading"
-      className={variant === "page" ? "bg-warmwhite pt-36 md:pt-44" : "bg-warmwhite"}
+      className={variant === "page" ? "bg-[#f7f0e1] pt-36 md:pt-44" : "bg-[#f7f0e1]"}
     >
       <div className="mx-auto max-w-7xl px-6 py-24 sm:px-8 md:py-36 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-12">
@@ -30,7 +30,7 @@ export function LocationSection({
               <Eyebrow>Location</Eyebrow>
               <h2
                 id="location-heading"
-                className="mt-5 text-balance font-serif text-4xl font-medium leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
+                className="mt-5 text-balance font-sans text-4xl font-light tracking-[-0.035em] leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
               >
                 {variant === "page" ? "Find your way to Crayford." : "Set in Lagos."}
               </h2>
@@ -66,7 +66,7 @@ export function LocationSection({
 
           {/* Map / image placeholder */}
           <Reveal delay={150} className="lg:col-span-7">
-            <div className="relative aspect-[4/3] w-full overflow-hidden border border-charcoal/10 bg-cream lg:aspect-[16/10]">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] bg-cream lg:aspect-[16/10] lg:rounded-[32px]">
               {mapImage ? (
                 <SiteImageWrapper image={mapImage} />
               ) : (
