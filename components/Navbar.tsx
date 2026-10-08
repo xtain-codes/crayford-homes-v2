@@ -19,7 +19,7 @@ export function Navbar() {
   // Routes whose top section is a dark cinematic hero — the navbar starts
   // transparent there and turns solid on scroll. /location has a light top,
   // so it is always solid.
-  const overHero = ["/", "/apartment", "/gallery"].includes(pathname);
+  const overHero = false;
   const solid = isScrolled || menuOpen || !atTopOfPage || !overHero;
   const transparent = overHero && !solid;
 
@@ -79,7 +79,7 @@ export function Navbar() {
           "transition-all duration-500 ease-smooth",
           transparent
             ? "bg-transparent"
-            : "border-b border-charcoal/10 bg-white/95 shadow-[0_1px_24px_rgba(32,32,32,0.06)] backdrop-blur-md"
+            : "border-b border-charcoal/10 bg-[#f7f0e1]/95 backdrop-blur-md"
         )}
       >
         <div className="mx-auto flex h-16 items-center justify-between gap-4 px-6 sm:px-8 lg:px-12">
@@ -103,7 +103,7 @@ export function Navbar() {
                 onClick={(event) => handleAnchorClick(event, link.href)}
                 className={cn(
                   "group relative font-sans text-[11px] font-medium uppercase tracking-label transition-colors duration-500",
-                  transparent ? "text-white/90 hover:text-white" : "text-charcoal/80 hover:text-charcoal",
+                  transparent ? "text-[#23212c]/90 hover:text-white" : "text-charcoal/80 hover:text-charcoal",
                   !transparent && pathname === link.href && link.href !== "/#amenities" && "text-brand-red font-medium"
                 )}
               >
@@ -128,7 +128,7 @@ export function Navbar() {
                 "btn hidden min-h-[40px] px-6 py-2 lg:inline-flex",
                 transparent
                   ? "border border-white/70 text-white hover:bg-white hover:text-charcoal"
-                  : "bg-brand-red text-white hover:bg-brand-red-dark"
+                  : "rounded-[20px] bg-[#23212c] text-white hover:bg-[#38343c]"
               )}
             >
               Book a Stay
@@ -155,10 +155,10 @@ export function Navbar() {
       {menuOpen ? (
         <div
           id="mobile-menu"
-          className="fixed inset-0 z-40 flex flex-col bg-brand-red animate-fade-in lg:hidden"
+          className="fixed inset-0 z-40 flex flex-col bg-[#f7f0e1] animate-fade-in lg:hidden"
         >
           <div className="flex h-16 shrink-0 items-center justify-between px-6 pt-[36px] sm:px-8">
-            <BrandLogo className="h-8 w-auto" light />
+            <BrandLogo className="h-8 w-auto" />
           </div>
           <nav aria-label="Mobile" className="flex flex-1 flex-col justify-center px-8">
             <ul className="space-y-2">
@@ -173,8 +173,8 @@ export function Navbar() {
                       href={link.href}
                       onClick={(event) => handleAnchorClick(event, link.href)}
                       className={cn(
-                        "block w-full py-3 font-serif text-4xl transition-colors hover:text-brand-pink",
-                        link.href === "/book" ? "text-white font-semibold" : "text-white/90"
+                        "block w-full py-3 font-sans font-light text-4xl transition-colors hover:text-brand-red",
+                        link.href === "/book" ? "text-white font-semibold" : "text-[#23212c]/90"
                       )}
                     >
                       {link.label}
@@ -185,7 +185,7 @@ export function Navbar() {
               )}
             </ul>
           </nav>
-          <p className="px-8 pb-10 font-sans text-[10px] uppercase tracking-label text-white/50">
+          <p className="px-8 pb-10 font-sans text-[10px] uppercase tracking-label text-[#23212c]/50">
             {siteConfig.tagline}
           </p>
         </div
