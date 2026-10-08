@@ -2,7 +2,7 @@ import { Eyebrow, Reveal } from "@/components/ui/Reveal";
 
 export function About() {
   return (
-    <section aria-labelledby="about-heading" className="bg-warmwhite">
+    <section aria-labelledby="about-heading" className="bg-[#f7f0e1]">
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-36 sm:px-8 md:pb-36 md:pt-48 lg:px-12">
         <div className="grid gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-3">
@@ -12,7 +12,7 @@ export function About() {
             <Reveal delay={100}>
               <h2
                 id="about-heading"
-                className="text-balance font-serif text-4xl font-medium leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
+                className="text-balance font-sans text-4xl font-light tracking-[-0.035em] leading-[1.08] text-charcoal sm:text-5xl md:text-6xl"
               >
                 Quiet luxury, made for real life.
               </h2>
