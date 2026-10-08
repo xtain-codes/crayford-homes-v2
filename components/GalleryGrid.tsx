@@ -22,7 +22,7 @@ export function GalleryGrid({ images }: { images: GalleryImage[] }) {
             className="group mb-3 block w-full break-inside-avoid text-left sm:mb-4"
             aria-label={`View ${image.title} image`}
           >
-            <span className="block overflow-hidden bg-beige">
+            <span className="block overflow-hidden rounded-[20px] bg-beige">
               <span
                 className={cn(
                   "block",
