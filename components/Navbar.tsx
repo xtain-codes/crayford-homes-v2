@@ -19,7 +19,7 @@ export function Navbar() {
   // Routes whose top section is a dark cinematic hero — the navbar starts
   // transparent there and turns solid on scroll. /location has a light top,
   // so it is always solid.
-  const overHero = false;
+  const overHero = pathname === "/";
   const solid = isScrolled || menuOpen || !atTopOfPage || !overHero;
   const transparent = overHero && !solid;
 
@@ -103,7 +103,7 @@ export function Navbar() {
                 onClick={(event) => handleAnchorClick(event, link.href)}
                 className={cn(
                   "group relative font-sans text-[11px] font-medium uppercase tracking-label transition-colors duration-500",
-                  transparent ? "text-[#23212c]/90 hover:text-white" : "text-charcoal/80 hover:text-charcoal",
+                  transparent ? "text-white/90 hover:text-white" : "text-charcoal/80 hover:text-charcoal",
                   !transparent && pathname === link.href && link.href !== "/#amenities" && "text-brand-red font-medium"
                 )}
               >
